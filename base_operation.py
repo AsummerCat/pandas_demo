@@ -4,6 +4,7 @@
 '''
 import numpy as np
 import pandas as pd
+from pylab import *
 
 # 随机数据
 dates = pd.date_range("20170301", periods=8)
@@ -219,7 +220,44 @@ def test8(df):
     ## 输出值:D 主键:AB 字段:C
     print(pd.pivot_table(df4, values="D", index=["A", "B"], columns=["C"]))
 
-    pass
+
+def test9(df):
+    '''
+    时间序列
+    time series
+    '''
+    # 定义时间序列 periods=时间段 feq:时间格式 Y M H D S
+    t_exam = pd.date_range("20170301", periods=10, freq="S")
+    print(t_exam)
+
+    '''
+    位图功能 
+    Graph
+    '''
+    # 创建序列
+    ts = pd.Series(np.random.randn(1000), index=pd.date_range("20170301", periods=1000))
+    # 累加
+    ts = ts.cumsum()
+    # 需要引入  from pylab import *
+    ts.plot()
+    show()
+
+
+def test10(df):
+    '''
+    文件操作
+    '''
+    # 读取csv文件
+    df6 = pd.read_csv("./test.csv")
+    print(df6)
+    # 读取xlsx文件 第一块
+    df7 = pd.read_excel("./test.xlsx", "Sheet1")
+    print(df7)
+
+    # 保存csv
+    df6.to_csv("/test2.csv")
+    # 保存xlsx
+    df7.to_excel("/test2.xlsx")
 
 
 if __name__ == '__main__':
@@ -231,4 +269,6 @@ if __name__ == '__main__':
     # test5(df)
     # test6(df)
     # test7(df)
-    test8(df)
+    # test8(df)
+    # test9(df)
+    test10(df)
