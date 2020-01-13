@@ -129,7 +129,21 @@ def test5(df):
     df1 = df.reindex(index=dates[:4], columns=list("ABCD") + ["G"])
     ## 仅给第一行第二行 赋值
     df1.loc[dates[0]:dates[1], "G"] = 1
-    print(df1)
+    # print(df1)
+
+    # 列表返回true false
+    print(pd.isnull(df1))
+
+    # 列表返回false true
+    print(pd.notnull(df1))
+
+    # 删除列
+    del df1['A']
+    # 查询列名
+    print(df1.columns)
+
+    # 对于dataFrame 可以删除任意轴上的索引值
+    print(df1.drop([dates[0], dates[2]]))
 
     ## 缺失值处理方式
     ### 一  ->直接丢弃
