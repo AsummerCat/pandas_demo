@@ -152,10 +152,83 @@ def test5(df):
     print(df1.fillna(value=2))
 
 
+def test6(df):
+    '''
+    科学计算
+    '''
+    # 求平均值
+    print(df.mean())
+    # 方差
+    print(df.var())
+
+    s = pd.Series([1, 2, 4, np.nan, 5, 7, 9, 10], index=dates)
+    print(s)
+    # 所有的值移后两位 后面的值不会移动至前面
+    print(s.shift(2))
+
+    # 阶分 填入数值表示多阶 后面一个减去前面一个
+    print(s.diff())
+
+    # 每个值在series出现的次数
+    print(s.value_counts())
+
+    print(df)
+    # 累加 后面的值都是前面的累加值
+    print(df.apply(np.cumsum))
+
+    # 自定义  极差
+    print(df.apply(lambda x: x.max() - x.min()))
+
+
+def test7(df):
+    '''
+    拼接
+    '''
+    # 获取前三行后三行
+    pieces = [df[:3], df[-3:]]
+    # 拼接
+    print(pd.concat(pieces))
+
+    left = pd.DataFrame({"key": ["x", "y"], "value": [1, 2]})
+    right = pd.DataFrame({"key": ["x", "z"], "value": [3, 4]})
+
+    #   合并  类似数据库的left join   对比两个DataFrame  on=对比的key how=默认inner  left right outer(全部显示)
+    print(pd.merge(left, right, on="key", how="left"))
+
+    df3 = pd.DataFrame({"A": ["a", "b", "c", "b"], "B": list(range(4))})
+
+    # 聚合函数 类似数据库的group by
+    print(df3.groupby("A").sum())
+
+
+def test8(df):
+    '''
+    重塑 透视表->交叉分析
+    '''
+    import datetime
+    df4 = pd.DataFrame({"A": ['one', 'one', 'two', 'three'] * 6,
+                        "B": ['a', 'b', 'c'] * 8,
+                        "C": ['foo', 'foo', 'foo', 'bar', 'bar', 'bar'] * 4,
+                        "D": np.random.randn(24),
+                        # 状态分布
+                        "E": np.random.randn(24),
+                        "F": [datetime.datetime(2017, i, 1) for i in range(1, 13)] +
+                             [datetime.datetime(2017, i, 15) for i in range(1, 13)]})
+
+    # 透视表
+    ## 输出值:D 主键:AB 字段:C
+    print(pd.pivot_table(df4, values="D", index=["A", "B"], columns=["C"]))
+
+    pass
+
+
 if __name__ == '__main__':
     df = base_data()
     # test1(df)
     # test2(df)
     # test3(df)
     # test4(df)
-    test5(df)
+    # test5(df)
+    # test6(df)
+    # test7(df)
+    test8(df)
