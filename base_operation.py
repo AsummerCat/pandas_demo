@@ -53,6 +53,12 @@ def test1(df):
 
     print("=" * 100)
 
+    # 求和 默认 根据列求和 axis根据行求和 axis简约的轴 行为0 1为列
+    print(df.sum(axis=0))
+    print(df.sum(axis=1))
+    ## NA值会被自动排除 ,除非全都是NA 通过skipna选项 可禁用
+    print(df.sum(axis=0, skipna=False))
+
 
 def test2(df):
     '''
@@ -81,6 +87,8 @@ def test2(df):
     print(df.iloc[0, 4])
     # 跟上面类似 获取指定位置的值
     print(df.iat[0, 4])
+    # 获取 指定行数的 A属性
+    print(df.ix[[0, 2], 'A'])
 
     '''
     筛选数据
@@ -149,6 +157,13 @@ def test5(df):
     ## 缺失值处理方式
     ### 一  ->直接丢弃
     print(df1.dropna())
+    #### 将直接丢弃全是Na的行
+    print(df1.dropna(how='all'))
+    #### 将直接丢弃列 全是Na的
+    print(df1.dropna(how='all', axis=1))
+    #### 过滤时间序列数据及其行问题 保留完整数据 thresh 指定保留属性个数
+    print(df1.dropna(thresh=3))
+
     ### 二 ->赋值一个指定值 或者插值
     print(df1.fillna(value=2))
 
@@ -260,6 +275,18 @@ def test10(df):
     df7.to_excel("/test2.xlsx")
 
 
+def test11(df):
+    '''
+    其他内容
+    '''
+    obj = pd.Series(range(5), index=['a', 'a', 'b', 'b', 'c'])
+
+    ## 判断索引值是否唯一
+    print(obj.index.is_unique)
+    ## 如果是重复的索引获取的值为多个  DataFrame也是同样的
+    print(obj['a'])
+
+
 if __name__ == '__main__':
     df = base_data()
     # test1(df)
@@ -271,4 +298,6 @@ if __name__ == '__main__':
     # test7(df)
     # test8(df)
     # test9(df)
-    test10(df)
+    # test10(df)
+    # test11(df)
+
