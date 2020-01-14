@@ -166,6 +166,10 @@ def test5(df):
 
     ### 二 ->赋值一个指定值 或者插值
     print(df1.fillna(value=2))
+    #### 通过一个一个字典调用fillna, 可以实现对不同的列填充
+    print(df1.fillna({1: 0.5, 3: -1}))
+    #### fillna默认会返回新对象 ,但也可以对现有对象就地就该 inplace=True
+    print(df1.fillna(value=2, inplace=True))
 
 
 def test6(df):
@@ -300,4 +304,3 @@ if __name__ == '__main__':
     # test9(df)
     # test10(df)
     # test11(df)
-
